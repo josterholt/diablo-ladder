@@ -1,0 +1,30 @@
+{{template "header.html"}}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Battle Tag</th>
+                    <th scope="col">Hero Class</th>
+                    <th scop="col">Hero Level</th>
+                    <th scope="col">Paragon Level</th>
+                    <th scope="col">Rift Level</th>
+                    <th scope="col">Rift Time</th>
+                    <th scope="col">Completion Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range $player := .Players}}
+                <tr>
+                    <th scop="row">{{$player.Rank}}</th>
+                    <td>{{$player.BattleTag}}</td>
+                    <td>{{$player.HeroClass}}</td>
+                    <td>{{$player.HeroLevel}}</td>
+                    <td>{{$player.ParagonLevel}}</td>
+                    <td>{{$player.RiftLevel}}</td>
+                    <td>{{FormatDuration $player.RiftTime}}</td>
+                    <td>{{$player.CompletedTime.Format "Jan 02, 2006 3:04 PM MST"}}</td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+{{template "footer.html"}}
