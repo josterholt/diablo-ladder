@@ -44,12 +44,12 @@ func getPlayers() []Player {
 		log.Fatalf("Could not connect to Blizzard API.\n%s", err)
 	}
 
-	current_season, err := strconv.Atoi(os.Getenv("CURRENT_SEASON"))
+	currentSeason, err := strconv.Atoi(os.Getenv("CURRENT_SEASON"))
 	if err != nil {
 		log.Fatalf("Error parsing season.\n%s", err)
 	}
 
-	data, _, err := blizz.D3SeasonLeaderboardWizard(current_season)
+	data, _, err := blizz.D3SeasonLeaderboardWizard(currentSeason)
 	if err != nil {
 		log.Fatalf("Could not retrieve season data.\n%s", err)
 	}
@@ -72,7 +72,7 @@ func getPlayersFromData(data *d3gd.Leaderboard) []Player {
 	}()
 
 	var players []Player
-	var ladder_player Player
+	var ladderPlayer Player
 
 	// data.Row[0].Player[0].Data[0].ID
 	for h := 0; h < len(data.Row); h++ {
@@ -83,39 +83,39 @@ func getPlayersFromData(data *d3gd.Leaderboard) []Player {
 			player := row.Player[i]
 
 			for j := 0; j < len(player.Data); j++ {
-				player_data := player.Data[j]
+				playerData := player.Data[j]
 
-				switch player_data.ID {
+				switch playerData.ID {
 				case "HeroBattleTag":
-					ladder_player.BattleTag = strings.Split(player_data.String, "#")[0]
+					ladderPlayer.BattleTag = strings.Split(playerData.String, "#")[0]
 				case "HeroClass":
-					ladder_player.HeroClass = strings.Title(strings.ToLower(player_data.String))
+					ladderPlayer.HeroClass = strings.Title(strings.ToLower(playerData.String))
 				case "HeroLevel":
-					ladder_player.HeroLevel = player_data.Number
+					ladderPlayer.HeroLevel = playerData.Number
 				case "ParagonLevel":
-					ladder_player.ParagonLevel = player_data.Number
+					ladderPlayer.ParagonLevel = playerData.Number
 				}
 			}
 		}
 
 		// Gather Rift information
 		for i := 0; i < len(row.Data); i++ {
-			rift_data_point := row.Data[i]
+			riftDataPoint := row.Data[i]
 
-			switch rift_data_point.ID {
+			switch riftDataPoint.ID {
 			case "Rank":
-				ladder_player.Rank = rift_data_point.Number
+				ladderPlayer.Rank = riftDataPoint.Number
 			case "RiftLevel":
-				ladder_player.RiftLevel = rift_data_point.Number
+				ladderPlayer.RiftLevel = riftDataPoint.Number
 			case "RiftTime":
-				seconds_to_nanoseconds := int64(1000000)
-				ladder_player.RiftTime = time.Duration(rift_data_point.Timestamp * seconds_to_nanoseconds)
+				secondsToNanoseconds := int64(1000000)
+				ladderPlayer.RiftTime = time.Duration(riftDataPoint.Timestamp * secondsToNanoseconds)
 			case "CompletedTime":
 				// Comleted time is in microseconds
-				ladder_player.CompletedTime = time.Unix(rift_data_point.Timestamp/1000, 0)
+				ladderPlayer.CompletedTime = time.Unix(riftDataPoint.Timestamp/1000, 0)
 			}
 		}
-		players = append(players, ladder_player)
+		players = append(players, ladderPlayer)
 	}
 	return players
 }

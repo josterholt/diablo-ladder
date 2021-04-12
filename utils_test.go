@@ -15,6 +15,7 @@ func TestGetPlayersFromData(t *testing.T) {
 		log.Fatalf("Unable to read test data.\n%s", err)
 	}
 
+	// unmarshaling is failing. Leaving test JSON out of commit.
 	var leaderboardData d3gd.Leaderboard
 	err = json.Unmarshal(testData, &leaderboardData)
 	if err != nil {
