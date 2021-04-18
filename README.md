@@ -4,10 +4,11 @@ This is a sample Go app that displays Diablo III ladder information.
 
 Technology:
 
--   Go
--   Goji (Web Framework)
--   Air (Live Reload)
--   Blizzard API
+-   [Go](https://golang.org/)
+-   [Goji](https://github.com/goji/goji) (Web Framework)
+-   [Air](https://github.com/cosmtrek/air) (Live Reload)
+-   [Go client library for Blizzard API](https://github.com/FuzzyStatic/blizzard)
+-   [Blizzard API](https://develop.battle.net)
 
 # SETUP
 
