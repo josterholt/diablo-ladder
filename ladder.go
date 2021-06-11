@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -34,9 +33,10 @@ func homepage(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	fmt.Println(playerClass, hardcore)
 	var context LadderContext
 	context.Players = getPlayers(strings.ToUpper(playerClass), hardcore)
+	context.CharacterClass = playerClass
+	context.Hardcore = hardcore
 
 	func_map := template.FuncMap{"FormatDuration": FormatDuration}
 	tmpl, err := template.New("homepage.html").Funcs(func_map).ParseGlob("templates/*.html")

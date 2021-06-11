@@ -26,7 +26,9 @@ type Player struct {
 }
 
 type LadderContext struct {
-	Players []Player
+	Players        []Player
+	CharacterClass string
+	Hardcore       bool
 }
 
 func init() {
@@ -88,9 +90,9 @@ func getPlayers(playerClass string, hardcore bool) []Player {
 		}
 	case "WITCHDOCTOR":
 		if !hardcore {
-			blizz.D3SeasonLeaderboardWitchDoctor(currentSeason)
+			data, _, err = blizz.D3SeasonLeaderboardWitchDoctor(currentSeason)
 		} else {
-			blizz.D3SeasonLeaderboardHardcoreWitchDoctor(currentSeason)
+			data, _, err = blizz.D3SeasonLeaderboardHardcoreWitchDoctor(currentSeason)
 		}
 	case "WIZARD":
 		if !hardcore {
@@ -124,6 +126,10 @@ func getPlayersFromData(data *d3gd.Leaderboard) []Player {
 
 	var players []Player
 	var ladderPlayer Player
+
+	if data == nil {
+		return players
+	}
 
 	// data.Row[0].Player[0].Data[0].ID
 	for h := 0; h < len(data.Row); h++ {

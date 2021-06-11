@@ -1,30 +1,63 @@
 {{template "header.html"}}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Rank</th>
-                    <th scope="col">Battle Tag</th>
-                    <th scope="col">Hero Class</th>
-                    <th scop="col">Hero Level</th>
-                    <th scope="col">Paragon Level</th>
-                    <th scope="col">Rift Level</th>
-                    <th scope="col">Rift Time</th>
-                    <th scope="col">Completion Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{range $player := .Players}}
-                <tr>
-                    <th scop="row">{{$player.Rank}}</th>
-                    <td>{{$player.BattleTag}}</td>
-                    <td>{{$player.HeroClass}}</td>
-                    <td>{{$player.HeroLevel}}</td>
-                    <td>{{$player.ParagonLevel}}</td>
-                    <td>{{$player.RiftLevel}}</td>
-                    <td>{{FormatDuration $player.RiftTime}}</td>
-                    <td>{{$player.CompletedTime.Format "Jan 02, 2006 3:04 PM MST"}}</td>
-                </tr>
-                {{end}}
-            </tbody>
-        </table>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <form method="GET" class="row row-cols-lg-auto g-3 align-items-center">
+                        <div class="col-12">
+                            <select name="class" class="form-select" aria-label="Character class select">
+                                <option value="BARBARIAN"{{ if eq .CharacterClass "BARBARIAN" }} SELECTED{{ end }}>Barbarian</option>
+                                <option value="CRUSADER"{{ if eq .CharacterClass "CRUSADER" }} SELECTED{{ end }}>Crusader</option>
+                                <option value="DEMONHUNTER"{{ if eq .CharacterClass "DEMONHUNTER" }} SELECTED{{ end }}>Demon Hunter</option>
+                                <option value="MONK"{{ if eq .CharacterClass "MONK" }} SELECTED{{ end }}>Monk</option>
+                                <option value="NECROMANCER"{{ if eq .CharacterClass "NECROMANCER" }} SELECTED{{ end }}>Necromancer</option>
+                                <option value="WITCHDOCTOR"{{ if eq .CharacterClass "WITCHDOCTOR" }} SELECTED{{ end }}>Witch Doctor</option>
+                                <option value="WIZARD"{{ if eq .CharacterClass "WIZARD" }} SELECTED{{ end }}>Wizard</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <label for="hardcore" class="form-label">Hardcore</label>
+                                <input type="checkbox" name="hardcode" class="form-check-input" />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <input type="submit" class="btn btn-primary" value="Search" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Rank</th>
+                                <th scope="col">Battle Tag</th>
+                                <th scope="col">Hero Class</th>
+                                <th scop="col">Hero Level</th>
+                                <th scope="col">Paragon Level</th>
+                                <th scope="col">Rift Level</th>
+                                <th scope="col">Rift Time</th>
+                                <th scope="col">Completion Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{range $player := .Players}}
+                            <tr>
+                                <th scop="row">{{$player.Rank}}</th>
+                                <td>{{$player.BattleTag}}</td>
+                                <td>{{$player.HeroClass}}</td>
+                                <td>{{$player.HeroLevel}}</td>
+                                <td>{{$player.ParagonLevel}}</td>
+                                <td>{{$player.RiftLevel}}</td>
+                                <td>{{FormatDuration $player.RiftTime}}</td>
+                                <td>{{$player.CompletedTime.Format "Jan 02, 2006 3:04 PM MST"}}</td>
+                            </tr>
+                            {{end}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>        
 {{template "footer.html"}}
