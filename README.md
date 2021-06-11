@@ -21,3 +21,10 @@ Uses the following environment variables to make Blizzard API queries. (Pulls in
 # Development
 
 Run with `air` for live reloading.
+
+# Usage
+
+Web app support two querystring parameters:
+
+-   Class - The Diablo charcter class (ex. Wizard, Barbarian)
+-   Hardcore - Whether to show non-hardore leaderboard or hardcore leaderboard

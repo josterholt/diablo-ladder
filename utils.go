@@ -25,7 +25,7 @@ type Player struct {
 	CompletedTime time.Time
 }
 
-type LaderContext struct {
+type LadderContext struct {
 	Players []Player
 }
 
@@ -36,7 +36,7 @@ func init() {
 	}
 }
 
-func getPlayers() []Player {
+func getPlayers(playerClass string, hardcore bool) []Player {
 	blizz := blizzard.NewClient(os.Getenv("CLIENT_ID"), os.Getenv("SECRET_KEY"), blizzard.US, blizzard.EnUS)
 
 	err := blizz.AccessTokenRequest()
@@ -49,7 +49,58 @@ func getPlayers() []Player {
 		log.Fatalf("Error parsing season.\n%s", err)
 	}
 
-	data, _, err := blizz.D3SeasonLeaderboardWizard(currentSeason)
+	//classes := []string {"Barbarian", "Crusader", "DemonHunter", "Monk", "Necromancer", "WitchDoctor", "Wizard"}
+	// playerClass := "BARBARIAN"
+	// hardcore := false
+	var data *d3gd.Leaderboard
+	var _ []byte
+
+	switch playerClass {
+	case "BARBARIAN":
+		if !hardcore {
+			data, _, err = blizz.D3SeasonLeaderboardBarbarian(currentSeason)
+		} else {
+			data, _, err = blizz.D3SeasonLeaderboardHardcoreBarbarian(currentSeason)
+		}
+	case "CRUSADER":
+		if !hardcore {
+			data, _, err = blizz.D3SeasonLeaderboardCrusader(currentSeason)
+		} else {
+			data, _, err = blizz.D3SeasonLeaderboardHardcoreCrusader(currentSeason)
+		}
+	case "DEMONHUNTER":
+		if !hardcore {
+			data, _, err = blizz.D3SeasonLeaderboardDemonHunter(currentSeason)
+		} else {
+			data, _, err = blizz.D3SeasonLeaderboardHardcoreDemonHunter(currentSeason)
+		}
+	case "MONK":
+		if !hardcore {
+			data, _, err = blizz.D3SeasonLeaderboardMonk(currentSeason)
+		} else {
+			data, _, err = blizz.D3SeasonLeaderboardHardcoreMonk(currentSeason)
+		}
+	case "NECROMANCER":
+		if !hardcore {
+			data, _, err = blizz.D3SeasonLeaderboardNecromancer(currentSeason)
+		} else {
+			data, _, err = blizz.D3SeasonLeaderboardHardcoreNecromancer(currentSeason)
+		}
+	case "WITCHDOCTOR":
+		if !hardcore {
+			blizz.D3SeasonLeaderboardWitchDoctor(currentSeason)
+		} else {
+			blizz.D3SeasonLeaderboardHardcoreWitchDoctor(currentSeason)
+		}
+	case "WIZARD":
+		if !hardcore {
+			data, _, err = blizz.D3SeasonLeaderboardWizard(currentSeason)
+		} else {
+			data, _, err = blizz.D3SeasonLeaderboardHardcoreWizard(currentSeason)
+		}
+	}
+
+	//data, _, err := blizz.D3SeasonLeaderboardWizard(currentSeason)
 	if err != nil {
 		log.Fatalf("Could not retrieve season data.\n%s", err)
 	}
